@@ -55,3 +55,26 @@ extension MathOperatorType: CustomStringConvertible {
         }
     }
 }
+
+public extension MathOperatorType {
+
+    public var expressionString: String {
+        switch self {
+        case .add: return " + "
+        case .sub: return " - "
+        case .mul: return " x "
+        case .div: return " / "
+        case .percent: return "%"
+        }
+    }
+
+    public var displayString: String {
+        switch self {
+        case .add: return " + "
+        case .sub: return " - "
+        case .mul: return " * "
+        case .div: return " / "
+        case .percent: return "%"
+        }
+    }
+}

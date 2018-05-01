@@ -14,11 +14,16 @@ public final class ExpressionEvaluator {
     public typealias Token = MathToken
     
     /// Assumes `expression` passed in `postfix (polish)` notation.
-    public func evaluate(_ expression: MathExpression) -> Double {
+    public func evaluate(_ expression: MathExpression) -> Double? {
         process(expression)
-        let result = stack.pop() ?? 0
         
-        return result
+        return stack.pop()
+    }
+    
+    public func evaluate(_ expression: [MathToken]) -> Double? {
+        process(expression)
+        
+        return stack.pop()
     }
     
     // MARK: - Members
@@ -28,7 +33,11 @@ public final class ExpressionEvaluator {
     // MARK: - Methods
     
     private func process(_ expression: MathExpression) {
-        for token in expression.tokens {
+        process(expression.tokens)
+    }
+    
+    private func process(_ tokens: [MathToken]) {
+        for token in tokens {
             let type = token.tokenType
             let processor = type.isOperator ? processOperator : processOperand
             processor(token)
@@ -60,10 +69,12 @@ public final class ExpressionEvaluator {
             let evaluator = mathOperator.binaryEvaluator else { return }
         
         let result = evaluator(operands.newest, operands.latest)
-        stack.push(result)
         
         if mathOperator.isVolumeOperator {
             stack.push(operands.newest)
+            stack.push(result)
+        } else {
+            stack.push(result)
         }
     }
     

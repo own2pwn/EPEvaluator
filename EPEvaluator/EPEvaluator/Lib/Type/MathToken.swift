@@ -39,3 +39,14 @@ extension MathToken: CustomStringConvertible {
         return tokenType.description
     }
 }
+
+extension MathToken {
+
+    public var expressionString: String {
+        return tokenType.expressionString
+    }
+
+    public var displayString: String {
+        return tokenType.displayString
+    }
+}
